@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudFlix | NGINX-Verse</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">CLOUDFLIX<span>+</span></a>
+    <nav><a href="#featured">Discover</a><a href="#about">About</a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">CLOUD MESSENGER PRESENTS</p>
+        <h1>Your next great<br><span>cloud adventure.</span></h1>
+        <p class="intro">A streaming-inspired demo experience, served by NGINX and deployed automatically with AWS CI/CD.</p>
+        <a class="cta" href="#featured">Explore the experience <span>→</span></a>
+        <p class="micro">A learning project by Cloud Messenger™</p>
+      </div>
+      <div class="hero-art" aria-label="Decorative gradient artwork">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="art-label">NGINX-VERSE <b>LIVE</b></div>
+      </div>
+    </section>
+    <section id="featured" class="content-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">CURATED FOR BUILDERS</p><h2>Explore the universe</h2></div>
+        <p>Original demo cards • No third-party streaming assets</p>
+      </div>
+      <div class="cards">
+        <article class="tile tile-a"><span>01 / CLOUD</span><h3>Beyond the Console</h3></article>
+        <article class="tile tile-b"><span>02 / AUTOMATION</span><h3>Pipeline Velocity</h3></article>
+        <article class="tile tile-c"><span>03 / CONTAINERS</span><h3>Inside the Image</h3></article>
+        <article class="tile tile-d"><span>04 / OBSERVABILITY</span><h3>Signals in the Dark</h3></article>
+      </div>
+    </section>
+    <section id="about" class="about">
+      <p class="eyebrow">BUILT TO SHIP</p>
+      <h2>Commit. Build. Deploy. Repeat.</h2>
+      <p>GitHub triggers AWS CodePipeline. CodeBuild builds the container and pushes it to Amazon ECR. ECS Fargate runs NGINX behind an Application Load Balancer.</p>
+      <div class="status"><span class="dot"></span> Demo interface ready for your AWS deployment</div>
+    </section>
+  </main>
+  <footer><span>© Cloud Messenger™ · NGINX-Verse learning project</span><span>#buildwithcloud-messenger</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
