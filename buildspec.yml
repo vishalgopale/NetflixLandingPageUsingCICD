@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  variables:
+    # Change this to the Region where your ECR repository and ECS service live.
+    AWS_DEFAULT_REGION: "ap-south-1"
+    ECR_REPOSITORY_NAME: "nginx-verse"
+    CONTAINER_NAME: "nginx"
+
+phases:
+  pre_build:
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - ECR_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}"
+      - aws ecr get-login-password --region "${AWS_DEFAULT_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+      - IMAGE_TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION}"
+      - IMAGE_TAG="${IMAGE_TAG:0:7}"
+      - if [ -z "${IMAGE_TAG}" ]; then IMAGE_TAG="manual-$(date +%Y%m%d%H%M%S)"; fi
+      - echo "ECR_URI=${ECR_URI}"
+      - echo "IMAGE_TAG=${IMAGE_TAG}"
+
+  build:
+    commands:
+      - echo "Building the NGINX-Verse image..."
+      - docker build -t "${ECR_URI}:${IMAGE_TAG}" .
+      - docker tag "${ECR_URI}:${IMAGE_TAG}" "${ECR_URI}:latest"
+
+  post_build:
+    commands:
+      - echo "Pushing image to ECR..."
+      - docker push "${ECR_URI}:${IMAGE_TAG}"
+      - docker push "${ECR_URI}:latest"
+      - echo "Creating ECS imagedefinitions.json..."
+      - printf '[{"name":"%s","imageUri":"%s"}]' "${CONTAINER_NAME}" "${ECR_URI}:${IMAGE_TAG}" > imagedefinitions.json
+      - cat imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
